@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mybatis.mapper.ZipcodeMapper">
+<!-- select문이 여러개 올 수 있고, 그렇기 때문에 꼭 아이디가 필요하다. -->
+	<select id="getDongList" parameterType="com.design.zipcode.ZipcodeVO" resultType="java.lang.String">
+		SELECT '전체' dong FROM dual
+		UNION ALL
+		SELECT dong
+		  FROM (
+		        SELECT distinct(dong) dong
+		          FROM zipcode_t
+		         WHERE sigu=#{sigu}
+		        ORDER BY dong asc
+	</select>
+	<select id="getSiguList" parameterType="com.design.zipcode.ZipcodeVO" resultType="java.lang.String">
+		SELECT '전체' sigu FROM dual     
+		UNION ALL                        
+		SELECT sigu                      
+		  FROM (                         
+		        SELECT distinct(sigu) sigu
+		          FROM zipcode_t         
+		         WHERE zdo=#{zdo}      
+		        ORDER BY sigu asc        
+	</select>
+	<select id="getZDOList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT '전체' zdo FROM dual      
+		 UNION ALL                        
+		SELECT zdo                       
+		  FROM (                         
+		        SELECT distinct(zdo) zdo 
+		          FROM zipcode_t         
+		         ORDER BY zdo asc         
+		       )
+	</select>
+	<select id="refreshData" parameterType="com.design.zipcode.ZipcodeVO" resultType="com.design.zipcode.ZipcodeVO"><!-- id는 메소드 이름이랑 통일시키는 게 좋음(왜?) -->
+		SELECT 'false' ChkBox, address, zipcode
+		  FROM zipcode_t
+		 WHERE 1=1
+		 <if test="zdo !=null and zdo.length()>0">	<!--null인 경우 실행되지 않음(null체크 함)-->
+		 	AND zdo = #{zdo}		 
+		 </if>
+		 <if test="dong !=null and dong.length()>0">
+		 	AND dong LIKE '%'||#{dong}||'%'
+		 </if>
+	</select>
+<!-- 	<select id="refreshData" parameterType="com.design.zipcode.ZipcodeVO" resultType="com.design.zipcode.ZipcodeVO">id는 중복이 되면 안 된다.
+		SELECT address, zipcode
+		  FROM zipcode_t
+		 WHERE 1=1
+		 <if test="zdo !=null and zdo.length()>0">
+		 	AND zdo = #{zdo}		 
+		 </if>
+		 <if test="dong !=null and dong.length()>0">
+		 	AND dong LIKE '%'||#{dong}||'%'
+		 </if>
+	</select> -->
+</mapper>
