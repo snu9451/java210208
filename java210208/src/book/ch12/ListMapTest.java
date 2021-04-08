@@ -2,6 +2,7 @@ package book.ch12;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,8 @@ public class ListMapTest {
 		
 		System.out.println("===============================");
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new Hashtable<>();
+		System.out.println(map);
 		map.put("one", "사과");
 		map.put("two", "포도");
 		map.put("three", "키위");

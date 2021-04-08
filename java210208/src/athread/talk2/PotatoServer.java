@@ -52,9 +52,9 @@ public class PotatoServer extends JFrame implements Runnable{
 			jta_log.append("Server Ready.........\n");
 			while(!isStop) {
 				socket = server.accept();
-				jta_log.append("client info:"+socket+"\n");				
-				pst = new PotatoServerThread(this);
-				pst.start();
+				jta_log.append("client info:"+socket+"\n");		//유저의 정보			
+				pst = new PotatoServerThread(this);				//PotatoServerThread의 생성
+				pst.start();									//run 호출
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,6 +97,7 @@ public class PotatoServer extends JFrame implements Runnable{
 		this.add("Center", jsp_log);
 		this.setSize(500, 400);
 		this.setVisible(true);
+//		questioner = globalList.get(globalList.indexOf(questioner)+1)
 	}
 	
 	public static void main(String[] args) {
