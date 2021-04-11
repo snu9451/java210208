@@ -17,5 +17,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="mybatis/mapper/zipcode.xml" />
 		<mapper resource="mybatis/mapper/book.xml" />
+		<mapper resource="mvc/address/mkAddrtb.xml" />
 	</mappers>
 </configuration>
