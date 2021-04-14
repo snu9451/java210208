@@ -21,9 +21,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import address.mvc.result.AddressCtrl;
-import address.mvc.result.AddressVO;
-
 public class WaitRoom extends JPanel implements ActionListener {
 	TalkClientVer2 tc2 = null;
 	LoginForm loginForm = null;

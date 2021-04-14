@@ -120,8 +120,8 @@ public class MyTableComponent extends JFrame implements ActionListener {
 			jsp = new JScrollPane(jt);
 			dtcr = new DefaultTableCellRenderer();
 			JLabel						jlb_test		= new JLabel();////////////////////////////////////////
-//			jtf = new JTextField();
-//			DefaultCellEditor dce = new DefaultCellEditor(jtf);
+			jtf = new JTextField();
+			DefaultCellEditor dce = new DefaultCellEditor(jtf);
 			tc = new TableColumn(1, 120, dtcr, dce);
 			tc.setHeaderValue("이름");
 			dtcm.addColumn(tc);

@@ -6,11 +6,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 class WestPanel extends JPanel {
 
@@ -73,24 +80,27 @@ class CenterPanel extends JPanel {
 
 	JScrollPane					jsp				= null;
 	JTable						jtb				= null;
-	DefaultTableCellRenderer	dcr				= null;
+//	DefaultTableCellRenderer	dcr				= null;
+	DefaultTableModel			dtm				= null;
 	String[]					cols			= { "순위", "영화명", "상영시간", "상영관", "잔여 좌석수" };
 	Vector						oneMovie		= new Vector();												// 서로다른 타입을
 																											// 담기 위해
 																											// ArrayList로
 																											// 선언
 
-	Image						geumja_image	= getToolkit().getImage("src\\my\\practice\\geumja.jpg");
-	JLabel						jlb_geumja		= new JLabel() {
-													private static final long serialVersionUID = 1L;
+	ImageIcon					geumja_image	= new ImageIcon("src\\my\\practice\\geumja.jpg");
+//	JLabel						jlb_geumja		= new JLabel("친절한 금자씨", geumja_image, JLabel.CENTER);
+	JLabel						jlb_geumja		= new JLabel(geumja_image, JLabel.CENTER);
+//	{
+//													private static final long serialVersionUID = 1L;
 
-													public void paint(Graphics g) {
+//													public void paint(Graphics g) {
 //			g.drawImage(geumja_image, 0, 0, this);
-														Point p = jsp.getViewport().getViewPosition();
-														g.drawImage(geumja_image, p.x, p.y, null);
-														paintComponent(g);
-													}
-												};
+//														Point p = jsp.getViewport().getViewPosition();
+//														g.drawImage(geumja_image, p.x, p.y, null);
+//														paintComponent(g);
+//													}
+//												};
 //	ImageIcon geumja_imageicon = new ImageIcon("src\\my\\practice\\geumja.jpg", "친절한 금자씨");
 
 	public CenterPanel() {
@@ -102,47 +112,39 @@ class CenterPanel extends JPanel {
 
 		this.setLayout(new BorderLayout());
 
-//		dtm = new DefaultTableModel(new Object[10][5], cols) {
-//			public boolean isCellEditable(int row, int col) {
-//				return false;
-//			}
-//		};
-//		jtb = new JTable(dtm);
+		dtm = new DefaultTableModel(new Object[10][5], cols) {
+			public boolean isCellEditable(int row, int col) {
+				return false;
+			}
+		};
+		jtb = new JTable(dtm);
+		DefaultTableCellRenderer dcr = new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				Component comp = null;
+				if(row==1 && column==1) {
+					comp = jlb_geumja;
+				}
+				return comp;
+			}
+		};
+		TableCellEditor ce = jtb.getCellEditor();
+		dcr.setHorizontalAlignment(0);
 		
-		dcr = new DefaultTableCellRenderer();
-		jtb = new JTable(dcr);
+		/***********************************************
+		 * @first_param: 다루고 있는 컬럼의 인덱스
+		 ***********************************************/
+		TableColumnModel tc = jtb.getColumnModel();
+		for(int index=0; index<jtb.getColumnCount(); index++) {
+			tc.getColumn(index).setCellRenderer(dcr);
+			System.out.println("랜더러 추가중");
+		}
+//		}
+
+			//		jtb = new JTable();
+		dtm.setValueAt(jlb_geumja, 1, 1);
 		
-		jtb.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				System.out.println(jtb.getValueAt(jtb.getSelectedRow(), jtb.getSelectedColumn()));
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 		jsp = new JScrollPane(jtb, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 //		jlb_geumja = new JLabel();
 
@@ -151,7 +153,8 @@ class CenterPanel extends JPanel {
 		jtb.setBackground(Color.white);
 		jtb.getTableHeader().setReorderingAllowed(false);
 		jtb.getTableHeader().setBackground(Color.orange);
-
+		
+		
 		this.add("Center", jsp);
 //		this.add("Center", geumja_image);
 
@@ -164,8 +167,23 @@ class CenterPanel extends JPanel {
 		oneMovie.add("1");
 		oneMovie.add(geumja_image);
 		dtm.addRow(oneMovie);
+//		resizeColumnWidth(jtb);
 	}
-
+	
+	//테이블 column의 너비 자동조절
+//	public void resizeColumnWidth(JTable table) {
+//		final TableColumnModel columnModel = table.getColumnModel();
+//		for (int column = 0; column < table.getColumnCount(); column++) {
+//			int width = 2; // Min width
+//			for (int row = 0; row < table.getRowCount(); row++) {
+//				TableCellRenderer renderer = table.getCellRenderer(row, column);
+//				Component comp = table.prepareRenderer(renderer, row, column);
+//				width = Math.max(comp.getPreferredSize().width +1 , width); 
+//			}
+//			columnModel.getColumn(column).setPreferredWidth(width);
+//		}
+//	}
+	
 }
 
 public class MovieManager extends JFrame {
