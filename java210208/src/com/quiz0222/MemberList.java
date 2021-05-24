@@ -12,7 +12,6 @@ public class MemberList {
 		Gson gson = new Gson();
 		String imsi = gson.toJson(mvo);
 		System.out.println(imsi);
-		
 	}
 
 }

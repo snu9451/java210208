@@ -11,4 +11,22 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="insaMap" class="di.step1.InsaMap">
+		<property name="mapBean">
+			<map> <!-- 튜플은 entry 태그로 한 번 더 감싸줘야 한다. -->
+				<entry>
+					<key><value>prop1</value></key>
+					<value>Hi!!!</value>
+				</entry>
+				<entry>
+					<key><value>prop2</value></key>
+					<value>Have a good time!!!</value>
+				</entry>
+				<entry>
+					<key><value>prop3</value></key>
+					<value>Have a nice day!!</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
 </beans>
